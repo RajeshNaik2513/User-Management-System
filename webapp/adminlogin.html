@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Admin Login | User Management System</title>
+<style>
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Poppins", sans-serif;
+}
+
+body {
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  background: url("https://res.cloudinary.com/dpxrmf3vc/image/upload/v1761115864/WhatsApp_Image_2025-10-22_at_12.02.17_58a4599f_gj5gws.jpg") no-repeat center/cover;
+  position: relative;
+  color: #fff;
+}
+
+body::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: rgba(0,0,0,0.45);
+  backdrop-filter: blur(2px);
+  z-index: 0;
+}
+
+.login-container {
+  z-index: 1;
+  width: 90%;
+  max-width: 400px;
+  background: rgba(255,255,255,0.12);
+  padding: 40px 35px;
+  border-radius: 20px;
+  border: 2px solid rgba(0,255,200,0.5);
+  text-align: center;
+  box-shadow: 0 0 30px rgba(0,200,255,0.3);
+  backdrop-filter: blur(10px);
+  animation: fadeIn 1s ease-in-out, pulseBorder 4s linear infinite;
+}
+
+@keyframes pulseBorder {
+  0%,100% { box-shadow: 0 0 20px rgba(0,255,200,0.4); }
+  50% { box-shadow: 0 0 40px rgba(0,255,200,0.8); }
+}
+
+.logo {
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 3px solid #00c6ff;
+  box-shadow: 0 0 15px rgba(0,255,200,0.6);
+  margin-bottom: 20px;
+  animation: float 3s ease-in-out infinite, rotate 12s linear infinite;
+}
+
+@keyframes float { 0%,100%{transform: translateY(0);} 50%{transform: translateY(-10px);} }
+@keyframes rotate { from {transform: rotateY(0);} to {transform: rotateY(360deg);} }
+
+.login-container h2 { color: #aeefff; margin-bottom: 10px; }
+.login-container p { color: #e0f7ff; margin-bottom: 20px; }
+
+form { display: flex; flex-direction: column; }
+label { text-align: left; color: #cdefff; margin-bottom: 5px; }
+input[type="text"], input[type="password"] {
+  padding: 12px;
+  margin-bottom: 20px;
+  border-radius: 8px;
+  border: none;
+  outline: none;
+  background: rgba(255,255,255,0.15);
+  color: #fff;
+}
+
+input[type="submit"] {
+  padding: 12px;
+  background: linear-gradient(135deg, #00c6ff, #0072ff);
+  border: none;
+  border-radius: 8px;
+  font-weight: 600;
+  cursor: pointer;
+  color: #fff;
+}
+
+.links { margin-top: 10px; font-size: 14px; display: flex; justify-content: space-between; }
+.links a { color: #aeefff; text-decoration: none; }
+.links a:hover { color: #7ee8fa; }
+
+footer {
+  margin-top: 15px;
+  z-index: 1;
+  font-size: 14px;
+  color: #cdefff;
+}
+
+</style>
+</head>
+<body>
+<div class="login-container">
+  <img class="logo" src="https://res.cloudinary.com/dpxrmf3vc/image/upload/v1761117224/WhatsApp_Image_2025-10-22_at_12.42.36_4a0c1a3d_jcdyy4.jpg" alt="Logo">
+  <h2>👨‍💼 Admin Login</h2>
+  <p>Enter your credentials to login</p>
+  <form action="adminlogin" method="post">
+    <label>User ID</label>
+    <input type="text" name="user" placeholder="Enter User Name" required>
+    <label>Password</label>
+    <input type="password" name="pwd" placeholder="Enter Password" required>
+    <input type="submit" value="Login">
+  </form>
+  <div class="links">
+    <a href="register.html">Register Now</a>
+    <a href="home.html">⬅ Back to Home</a>
+  </div>
+</div>
+<footer>© 2025 User Management System | Designed by 💙 Rajesh Naik 💎</footer>
+</body>
+</html>
