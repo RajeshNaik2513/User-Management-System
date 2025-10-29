@@ -3,60 +3,209 @@
 <head>
 <meta charset="UTF-8">
 <title>Update User | User Management</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+
 <style>
-    * {margin:0;padding:0;box-sizing:border-box;font-family:'Poppins',sans-serif;}
-    body {
-        background: linear-gradient(135deg,#1e3c72,#2a5298);
-        color: #fff;
-        height: 100vh;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-    }
-    .container {
-        background: rgba(255,255,255,0.15);
-        backdrop-filter: blur(10px);
-        border-radius: 20px;
-        padding: 40px;
-        width: 350px;
-        text-align: center;
-        box-shadow: 0 10px 20px rgba(0,0,0,0.3);
-    }
-    h2 {margin-bottom: 25px;}
-    input {
-        width: 100%;
-        padding: 10px;
-        margin: 10px 0;
-        border: none;
-        border-radius: 8px;
-        outline: none;
-    }
-    button {
-        background: linear-gradient(135deg,#00c6ff,#0072ff);
-        border: none;
-        color: white;
-        padding: 10px 25px;
-        border-radius: 25px;
-        cursor: pointer;
-        margin-top: 15px;
-    }
-    button:hover {background: linear-gradient(135deg,#7ee8fa,#80ff72);color:#002b80;}
-    a {color:#fff;text-decoration:none;font-size:14px;display:block;margin-top:15px;}
+* {margin:0; padding:0; box-sizing:border-box; font-family:'Inter',sans-serif;}
+
+body {
+  background: url("https://res.cloudinary.com/dpxrmf3vc/image/upload/v1761115864/WhatsApp_Image_2025-10-22_at_12.02.17_58a4599f_gj5gws.jpg") no-repeat center center/cover;
+  display:flex; justify-content:center; align-items:center;
+  min-height:100vh; overflow:hidden; position:relative; color:#fff;
+}
+body::before {
+  content:""; position:absolute; inset:0;
+  background:rgba(0,0,0,0.4); backdrop-filter:blur(2px);
+}
+
+/* DASHBOARD MAIN CONTAINER */
+.dashboard-container {
+  display:flex; width:90%; max-width:1300px; height:85vh;
+  border-radius:24px; background: rgba(10,20,35,0.30);
+  border:1.5px solid rgba(0,198,255,0.4);
+  overflow:hidden; position:relative; z-index:2;
+}
+
+/* SIDEBAR */
+.sidebar {
+  width:230px; display:flex; flex-direction:column;
+  padding:24px;
+  background:rgba(10,25,40,0.40);
+  border-right:1px solid rgba(0,198,255,0.4);
+}
+.sidebar-logo { display:flex; align-items:center; gap:10px; margin-bottom:40px; color:#00c7ff; font-weight:700; font-size:1.3rem;}
+.sidebar-logo img { width:42px; height:42px; border-radius:50%; border:2px solid #00b4ff; }
+
+.sidebar-nav ul { list-style:none; }
+.sidebar-nav li { margin-bottom:10px; }
+.sidebar-nav a {
+  display:flex; align-items:center; gap:10px; padding:12px;
+  text-decoration:none; color:#bcd9ea;
+  border-radius:10px;
+}
+.sidebar-nav a:hover, .sidebar-nav a.active {
+  background:rgba(0,198,255,0.2); color:#fff;
+}
+
+.sidebar-footer { margin-top:auto; }
+.sidebar-footer button {
+  width:100%; padding:12px; border:none; border-radius:25px;
+  background:linear-gradient(135deg,#ff416c,#ff4b2b); cursor:pointer; color:#fff;
+}
+
+/* MAIN CONTENT */
+.main-content {
+  flex-grow:1; padding:40px; overflow-y:auto;
+}
+
+.form-wrapper {
+  width:450px; margin:auto; padding:35px;
+  background: rgba(255,255,255,0.1);
+  border-radius:20px;
+  backdrop-filter: blur(12px);
+  box-shadow: 0 10px 25px rgba(0,0,0,0.4);
+}
+.form-wrapper h2 {
+  text-align:center; color:#00dfff; margin-bottom:15px;
+}
+input {
+  width:100%; padding:12px; margin-top:12px;
+  border-radius:10px; border:none; outline:none; font-size:16px;
+}
+button {
+  width:100%; padding:12px; border:none;
+  border-radius:8px; font-size:16px; cursor:pointer; margin-top:15px;
+  background:linear-gradient(135deg,#ff416c,#ff4b2b); color:#fff;
+}
+button:hover {
+  background:linear-gradient(135deg,#7ee8fa,#ff9a9e); color:#032252;
+}
+
+/* Toast */
+#toast {
+  visibility: hidden;
+  position: fixed;
+  top: 25px;
+  right: 25px;
+  background: #4CAF50;
+  color: white;
+  padding: 14px 20px;
+  border-radius: 8px;
+  opacity: 0;
+  z-index: 9999;
+  transition: opacity .4s;
+}
+
+/* Loader */
+#loader {
+  display:none;
+  border:4px solid white;
+  border-top:4px solid #ff4b2b;
+  width:35px; height:35px;
+  border-radius:50%; animation: spin 1s linear infinite;
+  margin:auto; margin-top:12px;
+}
+@keyframes spin { 100% { transform: rotate(360deg); } }
+
 </style>
 </head>
+
 <body>
-<div class="container">
-    <h2>✏️ Update User</h2>
-    <form action="updateuserform" method="get">
-        <input type="number" name="id" placeholder="User ID" required>
-        <input type="text" name="first_name" placeholder="First Name" required>
-        <input type="text" name="last_name" placeholder="Last Name" required>
-        <input type="email" name="email" placeholder="Email" required>
-        <input type="number" name="mobile" placeholder="Mobile Number" required>
-        <input type="password" name="password" placeholder="Password" required>
-        <button type="submit">Update</button>
-    </form>
-    <a href="home.html">🏠 Back to Home</a>
+
+<div class="dashboard-container">
+
+  <!-- Sidebar -->
+  <aside class="sidebar">
+    <div class="sidebar-logo">
+      <img src="https://cdn-icons-png.flaticon.com/512/3135/3135715.png">
+      <span>User</span>
+    </div>
+
+    <nav class="sidebar-nav">
+      <ul>
+      	<li><a href="userdashboard.html">Dashboard</a></li>
+        <li><a href="register.html">Insert Data</a></li>
+        <li><a href="viewalluser">View Users</a></li>
+        <li><a class="active" href="updateuser.html">Update User</a></li>
+      </ul>
+    </nav>
+
+    <div class="sidebar-footer">
+      <button onclick="window.location.href='home.html'">Logout</button>
+    </div>
+  </aside>
+
+  <!-- Form -->
+  <main class="main-content">
+    <div class="form-wrapper">
+      <h2>✏ Update User</h2>
+
+      <input type="number" id="uid" placeholder="Enter User ID to Search">
+      <button onclick="fetchUser()">Get User Details</button>
+      <div id="loader"></div>
+
+      <form action="updateuser" method="post">
+        <input type="hidden" name="id" id="id">
+        <input type="text" name="fname" id="fname" placeholder="First Name" required>
+        <input type="text" name="lname" id="lname" placeholder="Last Name" required>
+        <input type="email" name="email" id="email" placeholder="Email" required>
+        <input type="number" name="mobile" id="mobile" placeholder="Mobile" required>
+        <button type="submit">Update User</button>
+      </form>
+    </div>
+  </main>
 </div>
+
+<!-- Toast -->
+<div id="toast"></div>
+
+<script>
+// ✅ Toast function
+function showToast(msg, bg = "green") {
+  const toast = document.getElementById("toast");
+  toast.innerText = msg;
+  toast.style.background = bg;
+  toast.style.visibility = "visible";
+  toast.style.opacity = "1";
+
+  setTimeout(() => {
+    toast.style.opacity = "0";
+    toast.style.visibility = "hidden";
+  }, 3000);
+}
+
+// ✅ Fetch & Autofill user
+function fetchUser() {
+  const uid = document.getElementById("uid").value;
+  const loader = document.getElementById("loader");
+
+  if (uid === "") return showToast("Enter User ID!", "red");
+
+  loader.style.display = "block";
+
+  fetch("Getuser?id=" + uid)
+    .then(res => res.text())
+    .then(data => {
+      loader.style.display = "none";
+
+      if (data === "NOT_FOUND") return showToast("User Not Found!", "red");
+      if (data === "TECHNICAL_ERROR") return showToast("Server Error!", "red");
+
+      const user = data.split(",");
+      document.getElementById("id").value = uid;
+      document.getElementById("fname").value = user[0];
+      document.getElementById("lname").value = user[1];
+      document.getElementById("email").value = user[2];
+      document.getElementById("mobile").value = user[3];
+
+      showToast("User Data Loaded ✅");
+    })
+    .catch(() => {
+      loader.style.display = "none";
+      showToast("Error fetching data!", "red");
+    });
+}
+</script>
+
 </body>
 </html>

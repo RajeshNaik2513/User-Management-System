@@ -13,61 +13,34 @@ public class UpdateUser extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
 
-        response.setContentType("text/html;charset=UTF-8");
-        HttpSession session = request.getSession(false);
-        String role = (session != null) ? (String) session.getAttribute("role") : null;
-
-        if (role == null || !role.equals("admin")) {
-            response.getWriter().println("<h2 style='color:red;text-align:center;'>Access Denied ❌</h2>");
-            return;
-        }
-
-        String uidStr = request.getParameter("uid");
-        if (uidStr == null || uidStr.isEmpty()) {
-            response.getWriter().println("<h3 style='color:red;text-align:center;'>Error: User ID is missing!</h3>");
-            return;
-        }
-
         try {
-            int uid = Integer.parseInt(uidStr);
-            String fname = request.getParameter("first_name");
-            String lname = request.getParameter("last_name");
+            int id = Integer.parseInt(request.getParameter("id"));
+            String fname = request.getParameter("fname");
+            String lname = request.getParameter("lname");
             String email = request.getParameter("email");
-            long mobile = Long.parseLong(request.getParameter("mobile"));
+            String mobile = request.getParameter("mobile");
 
-            Class.forName("oracle.jdbc.OracleDriver");
+            Class.forName("oracle.jdbc.driver.OracleDriver");
             Connection con = DriverManager.getConnection(
-                    "jdbc:oracle:thin:@localhost:1521:XE", "system", "rajesh"
-            );
+                    "jdbc:oracle:thin:@localhost:1521:XE", "system", "rajesh");
 
-            // --- Update user ---
             PreparedStatement ps = con.prepareStatement(
-                    "UPDATE user_data SET frist_name=?, last_name=?, email=?, mobile=? WHERE uid=?"
-            );
+                    "UPDATE user_data SET frist_name=?, last_name=?, email=?, mobile=? WHERE id=?");
+
             ps.setString(1, fname);
             ps.setString(2, lname);
             ps.setString(3, email);
-            ps.setLong(4, mobile);
-            ps.setInt(5, uid);
+            ps.setString(4, mobile);
+            ps.setInt(5, id);
+
             ps.executeUpdate();
-
-            // --- Log action to user_audit ---
-            PreparedStatement psAudit = con.prepareStatement(
-                    "INSERT INTO user_audit(user_id, frist_name, last_name, action_type) VALUES (?, ?, ?, ?)"
-            );
-            psAudit.setInt(1, uid);
-            psAudit.setString(2, fname);
-            psAudit.setString(3, lname);
-            psAudit.setString(4, "UPDATE");
-            psAudit.executeUpdate();
-
             con.close();
 
-            response.sendRedirect("viewalluser");
+            response.sendRedirect("updateuser.html?success=true");
 
         } catch (Exception e) {
-            response.getWriter().println("<h3 style='color:red;text-align:center;'>Error: " + e.getMessage() + "</h3>");
-            e.printStackTrace(response.getWriter());
+            System.out.println(e);
+            response.sendRedirect("updateuser.html?error=true");
         }
     }
 }

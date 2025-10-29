@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>User Registration | User Management System</title>
+<title>User Inserted | User Management System</title>
 
 <style>
     * {
@@ -14,126 +14,119 @@
     }
 
     body {
-        background: linear-gradient(135deg, #1e3c72, #2a5298);
         min-height: 100vh;
         display: flex;
-        flex-direction: column;
-        align-items: center;
         justify-content: center;
-        color: #fff;
-        overflow: hidden;
+        align-items: center;
+        background: url("https://res.cloudinary.com/dpxrmf3vc/image/upload/v1761115864/WhatsApp_Image_2025-10-22_at_12.02.17_58a4599f_gj5gws.jpg") no-repeat center center/cover;
         position: relative;
-    }
-
-    /* BUBBLES */
-    .bubble {
-        position: absolute;
-        bottom: -100px;
-        background: rgba(255, 255, 255, 0.15);
-        border-radius: 50%;
-        animation: rise 15s linear infinite;
-    }
-
-    @keyframes rise {
-        0% { transform: translateY(0) scale(1); opacity: 0.3; }
-        50% { opacity: 0.6; }
-        100% { transform: translateY(-1200px) scale(1.2); opacity: 0; }
-    }
-
-    /* FORM CONTAINER */
-    .register-container {
-        background: rgba(255, 255, 255, 0.15);
-        backdrop-filter: blur(12px);
-        border-radius: 25px;
-        padding: 30px 35px;
-        width: 320px; /* reduced width */
-        text-align: center;
-        box-shadow: 0 10px 25px rgba(0, 0, 0, 0.25);
-        z-index: 1;
-        animation: fadeIn 1s ease-in;
-    }
-
-    .register-container h2 {
-        font-size: 1.6em;
-        margin-bottom: 8px;
-        letter-spacing: 0.5px;
-    }
-
-    .register-container p {
-        font-size: 0.85em;
-        opacity: 0.85;
-        margin-bottom: 18px;
-    }
-
-    .input-group {
-        text-align: left;
-        margin-bottom: 15px;
-    }
-
-    label {
-        display: block;
-        font-size: 0.9em;
-        margin-bottom: 5px;
-    }
-
-    input {
-        width: 100%;
-        padding: 8px 12px;
-        border: none;
-        border-radius: 10px;
-        outline: none;
-        font-size: 0.95em;
-        color: #002b80;
-    }
-
-    input::placeholder {
-        color: #7d7d7d;
-    }
-
-    .btn {
-        width: 100%;
-        background: linear-gradient(135deg, #00c6ff, #0072ff);
-        border: none;
-        border-radius: 30px;
-        padding: 10px;
-        font-size: 0.95em;
         color: #fff;
-        cursor: pointer;
-        transition: 0.3s;
-        font-weight: 600;
-        margin-top: 8px;
     }
 
-    .btn:hover {
-        background: linear-gradient(135deg, #7ee8fa, #80ff72);
-        color: #002b80;
+    body::before {
+        content: "";
+        position: absolute;
+        inset: 0;
+        background: rgba(0, 0, 0, 0.4);
+        backdrop-filter: blur(2px);
+        z-index: 0;
     }
 
-    .links {
+    .container {
+        z-index: 1;
+        width: 90%;
+        max-width: 600px;
+        background: rgba(255, 255, 255, 0.12);
+        border-radius: 25px;
+        padding: 50px 30px;
+        text-align: center;
+        border: 1px solid rgba(255,255,255,0.25);
+        backdrop-filter: blur(10px);
+        box-shadow: 0 0 25px rgba(0, 200, 255, 0.4);
+        animation: fadeIn 1.6s ease-in-out;
+    }
+
+    .logo {
+        width: 110px;
+        height: 110px;
+        object-fit: cover;
+        border-radius: 50%;
+        border: 3px solid #00c6ff;
+        box-shadow: 0 0 20px rgba(0, 255, 200, 0.6);
+        margin-bottom: 15px;
+        animation: float 3s ease-in-out infinite;
+    }
+
+    h1 {
+        font-size: 2em;
+        margin-bottom: 8px;
+        color: #cff4ff;
+    }
+
+    p {
+        font-size: 1.05em;
+        opacity: 0.9;
+        margin-bottom: 25px;
+    }
+
+    .cards {
+        display: flex;
+        justify-content: center;
+        gap: 20px;
+        flex-wrap: wrap;
         margin-top: 15px;
     }
 
-    .links a {
-        color: #fff;
-        text-decoration: none;
-        font-weight: 500;
+    .card {
+        background: rgba(255, 255, 255, 0.15);
+        border-radius: 15px;
+        padding: 18px 25px;
+        width: 230px;
+        text-align: center;
         transition: 0.3s;
-        font-size: 0.9em;
+        backdrop-filter: blur(6px);
+        border: 1px solid rgba(255,255,255,0.2);
     }
 
-    .links a:hover {
-        color: #80ff72;
+    .card:hover {
+        transform: translateY(-12px);
+        box-shadow: 0 0 25px rgba(0, 255, 200, 0.6);
+    }
+
+    .card h3 {
+        font-size: 1.2em;
+        color: #80fffd;
+        margin-bottom: 8px;
+    }
+
+    .card a {
+        display: inline-block;
+        width: 100%;
+        padding: 10px;
+        margin-top: 10px;
+        border-radius: 8px;
+        background: linear-gradient(135deg, #00c6ff, #0072ff);
+        color: #fff;
+        text-decoration: none;
+        font-weight: 600;
+        transition: 0.3s;
+    }
+
+    .card a:hover {
+        background: linear-gradient(135deg, #80ff72, #7ee8fa);
+        color: #003366;
+        box-shadow: 0 0 18px rgba(0,255,200,0.7);
     }
 
     footer {
-        text-align: center;
-        padding: 18px;
-        font-size: 13px;
-        opacity: 0.8;
-        position: absolute;
-        bottom: 10px;
-        width: 100%;
-        color: #fff;
+        margin-top: 40px;
+        font-size: 14px;
+        color: #d6f8ff;
+    }
+
+    footer span {
+        font-weight: bold;
+        color: #7ee8fa;
     }
 
     @keyframes fadeIn {
@@ -141,71 +134,36 @@
         to { opacity: 1; transform: translateY(0); }
     }
 
-    @media (max-width: 480px) {
-        .register-container {
-            width: 85%;
-            padding: 25px 20px;
-        }
+    @keyframes float {
+        0%, 100% { transform: translateY(0); }
+        50% { transform: translateY(-8px); }
     }
+
 </style>
 </head>
 <body>
 
-<!-- FLOATING BUBBLES -->
-<div class="bubble" style="width: 20px; height: 20px; left: 10%; animation-duration: 12s;"></div>
-<div class="bubble" style="width: 25px; height: 25px; left: 30%; animation-duration: 16s;"></div>
-<div class="bubble" style="width: 15px; height: 15px; left: 50%; animation-duration: 10s;"></div>
-<div class="bubble" style="width: 30px; height: 30px; left: 70%; animation-duration: 18s;"></div>
-<div class="bubble" style="width: 18px; height: 18px; left: 85%; animation-duration: 14s;"></div>
+<div class="container">
+    <img class="logo" src="https://res.cloudinary.com/dpxrmf3vc/image/upload/v1761117224/WhatsApp_Image_2025-10-22_at_12.42.36_4a0c1a3d_jcdyy4.jpg" alt="Logo">
 
-<!-- REGISTRATION FORM -->
-<div class="register-container">
-    <h2>📝 User Registration</h2>
-    <p>Create your account to get started.</p>
+    <h1>✅ User Registered Successfully</h1>
+    <p>The user details have been added to the database.</p>
 
-    <form action="insertuser" method="post">
-        <div class="input-group">
-            <label for="id">User ID</label>
-            <input type="number" id="id" name="id" placeholder="Enter ID" required>
+    <section class="cards">
+        <div class="card">
+            <h3>➕ Add Another User</h3>
+            <a href="register.html">Register Again</a>
         </div>
 
-        <div class="input-group">
-            <label for="fname">First Name</label>
-            <input type="text" id="fname" name="fname" placeholder="First Name" required>
+        <div class="card">
+            <h3>🔍 View All Users</h3>
+            <a href="viewalluser">View Users</a>
         </div>
+    </section>
 
-        <div class="input-group">
-            <label for="lname">Last Name</label>
-            <input type="text" id="lname" name="lname" placeholder="Last Name" required>
-        </div>
-
-        <div class="input-group">
-            <label for="email">Email</label>
-            <input type="email" id="email" name="email" placeholder="Email Address" required>
-        </div>
-
-        <div class="input-group">
-            <label for="mobile">Mobile</label>
-            <input type="tel" id="mobile" name="mobile" placeholder="Mobile Number" maxlength="10" required>
-        </div>
-
-        <div class="input-group">
-            <label for="password">Password</label>
-            <input type="password" id="password" name="password" placeholder="Password" required>
-        </div>
-
-        <button type="submit" class="btn">Register</button>
-
-        <div class="links">
-            <p>Already have an account? <a href="login.html">Login Here</a></p>
-            <p><a href="home.html">🏠 Back to Home</a></p>
-        </div>
-    </form>
+    <footer>
+        © 2025 <span>User Management System</span> | Designed with 💙 by <span>Rajesh Naik 💎</span>
+    </footer>
 </div>
-
-<footer>
-    © 2025 User Management System | Designed with 💙 by Rajesh Naik 💎
-</footer>
-
 </body>
 </html>

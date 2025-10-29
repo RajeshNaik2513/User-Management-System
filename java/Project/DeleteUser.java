@@ -10,7 +10,7 @@ import javax.servlet.http.*;
 public class DeleteUser extends HttpServlet {
     private static final long serialVersionUID = 1L;
 
-    protected void doGet(HttpServletRequest request, HttpServletResponse response)
+    protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
 
         HttpSession session = request.getSession(false);
@@ -21,9 +21,10 @@ public class DeleteUser extends HttpServlet {
             return;
         }
 
-        String uidStr = request.getParameter("uid");
+        String uidStr = request.getParameter("id");
+
         if (uidStr == null || uidStr.isEmpty()) {
-            response.getWriter().println("<h3 style='color:red;text-align:center;'>Error: User ID is missing!</h3>");
+            response.getWriter().println("<h3 style='color:red;text-align:center;'>User ID Missing!</h3>");
             return;
         }
 
@@ -35,39 +36,22 @@ public class DeleteUser extends HttpServlet {
                     "jdbc:oracle:thin:@localhost:1521:XE", "system", "rajesh"
             );
 
-            // --- Get user info for audit ---
-            PreparedStatement psSelect = con.prepareStatement("SELECT first_name, last_name FROM user_data WHERE uid=?");
-            psSelect.setInt(1, uid);
-            ResultSet rs = psSelect.executeQuery();
-            String fname = "";
-            String lname = "";
-            if (rs.next()) {
-                fname = rs.getString("first_name");
-                lname = rs.getString("last_name");
-            }
-
-            // --- Delete user ---
-            PreparedStatement ps = con.prepareStatement("DELETE FROM user_data WHERE uid=?");
+            // Delete user
+            PreparedStatement ps = con.prepareStatement("DELETE FROM user_data WHERE ID=?");
             ps.setInt(1, uid);
-            ps.executeUpdate();
-
-            // --- Log deletion ---
-            PreparedStatement psAudit = con.prepareStatement(
-                    "INSERT INTO user_audit(user_id, frist_name, last_name, action_type) VALUES (?, ?, ?, ?)"
-            );
-            psAudit.setInt(1, uid);
-            psAudit.setString(2, fname);
-            psAudit.setString(3, lname);
-            psAudit.setString(4, "DELETE");
-            psAudit.executeUpdate();
+            int result = ps.executeUpdate();
 
             con.close();
 
-            response.sendRedirect("viewalluser");
+            if (result > 0) {
+                response.sendRedirect("deleteuser.html?deleted=true"); // show popup
+            } else {
+                response.getWriter().println("<h3 style='color:yellow;text-align:center;'>⚠ User Not Found!</h3>");
+            }
 
         } catch (Exception e) {
+            e.printStackTrace();
             response.getWriter().println("<h3 style='color:red;text-align:center;'>Error: " + e.getMessage() + "</h3>");
-            e.printStackTrace(response.getWriter());
         }
     }
 }
